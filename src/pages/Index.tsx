@@ -13,7 +13,7 @@ const Index = () => {
   const [scenario, setScenario] = useState("");
   const [webhookResponseMessage, setWebhookResponseMessage] = useState<string | null>(null);
   const [isSimulating, setIsSimulating] = useState(false);
-  const { toast, dismiss } = useToast();
+  const { toast } = useToast(); // Removed dismiss as it's no longer needed for these toasts
   const navigate = useNavigate();
   const { leaderboard } = useSimulations();
 
@@ -29,11 +29,7 @@ const Index = () => {
     }
 
     setIsSimulating(true);
-    const loadingToast = toast({
-      title: "Submitting scenario...",
-      description: "Please wait while we process your request.",
-      duration: 999999,
-    });
+    // Removed loading toast
 
     try {
       const webhookUrl = "http://localhost:5678/webhook-test/c0540016-ee92-459e-8737-26d58df96e6e";
@@ -52,21 +48,11 @@ const Index = () => {
       const webhookResponse = await response.json();
       setWebhookResponseMessage(webhookResponse.output || "No output received from webhook.");
 
-      dismiss(loadingToast.id);
-      toast({
-        title: "Scenario submitted!",
-        description: "Your scenario has been sent to the webhook.",
-        variant: "success",
-      });
+      // Removed success toast
 
     } catch (error) {
       console.error("Error submitting scenario:", error);
-      dismiss(loadingToast.id);
-      toast({
-        title: "Submission failed",
-        description: "There was an error sending your scenario. Please ensure the webhook is running and try again.",
-        variant: "destructive",
-      });
+      // Removed failure toast
       setWebhookResponseMessage(`Error: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setIsSimulating(false);
@@ -107,7 +93,7 @@ const Index = () => {
                   disabled={isSimulating}
                 />
               </div>
-              <GradientButton // Use GradientButton here
+              <GradientButton
                 type="submit" 
                 disabled={isSimulating}
               >
