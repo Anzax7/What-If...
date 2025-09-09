@@ -8,7 +8,7 @@ import { useSimulations } from "@/context/SimulationContext";
 
 const Index = () => {
   const [scenario, setScenario] = useState("");
-  const { toast } = useToast();
+  const { toast, dismiss } = useToast(); // Destructure 'dismiss' here
   const navigate = useNavigate();
   const { leaderboard } = useSimulations();
 
@@ -42,7 +42,7 @@ const Index = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      toast.dismiss(loadingToast.id);
+      dismiss(loadingToast.id); // Call dismiss directly
       toast({
         title: "Scenario submitted!",
         description: "Your scenario has been sent to the webhook.",
@@ -52,7 +52,7 @@ const Index = () => {
       navigate(`/simulation?q=${encodeURIComponent(scenario)}`);
     } catch (error) {
       console.error("Error submitting scenario:", error);
-      toast.dismiss(loadingToast.id);
+      dismiss(loadingToast.id); // Call dismiss directly
       toast({
         title: "Submission failed",
         description: "There was an error sending your scenario. Please ensure the webhook is running and try again.",
