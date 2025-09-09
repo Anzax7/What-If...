@@ -12,7 +12,7 @@ const Index = () => {
   const navigate = useNavigate();
   const { leaderboard } = useSimulations();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!scenario.trim()) {
       toast({
@@ -21,7 +21,44 @@ const Index = () => {
       });
       return;
     }
-    navigate(`/simulation?q=${encodeURIComponent(scenario)}`);
+
+    const loadingToast = toast({
+      title: "Submitting scenario...",
+      description: "Please wait while we process your request.",
+      duration: 999999, // Keep this toast open indefinitely
+    });
+
+    try {
+      const webhookUrl = "http://localhost:5678/webhook-test/c0540016-ee92-459e-8737-26d58df96e6e";
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ scenario: scenario }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      toast.dismiss(loadingToast.id);
+      toast({
+        title: "Scenario submitted!",
+        description: "Your scenario has been sent to the webhook.",
+        variant: "success",
+      });
+
+      navigate(`/simulation?q=${encodeURIComponent(scenario)}`);
+    } catch (error) {
+      console.error("Error submitting scenario:", error);
+      toast.dismiss(loadingToast.id);
+      toast({
+        title: "Submission failed",
+        description: "There was an error sending your scenario. Please ensure the webhook is running and try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handlePopularClick = (popularScenario: string) => {
@@ -58,7 +95,10 @@ const Index = () => {
                   className="text-lg py-6 px-4"
                 />
               </div>
-              <Button type="submit" className="w-full py-6 text-lg">
+              <Button 
+                type="submit" 
+                className="w-full py-6 text-lg bg-purple-800 text-white hover:bg-purple-700"
+              >
                 Simulate
               </Button>
             </form>
