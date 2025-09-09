@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { CardHeader, CardTitle, CardContent } from "@/components/ui/card"; // Keep these imports for sub-components
+import { Button } from "@/components/ui/button"; // Keep this if other buttons are used
+import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { useSimulations } from "@/context/SimulationContext";
 import { sanitizeOutput } from "@/lib/utils";
 import { SciFiInput } from "@/components/SciFiInput";
-import { SciFiCard } from "@/components/SciFiCard"; // Import the new SciFiCard
+import { SciFiCard } from "@/components/SciFiCard";
+import { GradientButton } from "@/components/GradientButton"; // Import the new GradientButton
 
 const Index = () => {
   const [scenario, setScenario] = useState("");
@@ -89,7 +90,7 @@ const Index = () => {
           </p>
         </div>
 
-        <SciFiCard className="max-w-2xl mx-auto"> {/* Use SciFiCard here */}
+        <SciFiCard className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle className="text-center text-2xl">
               Enter your scenario
@@ -106,9 +107,8 @@ const Index = () => {
                   disabled={isSimulating}
                 />
               </div>
-              <Button 
+              <GradientButton // Use GradientButton here
                 type="submit" 
-                className="w-full py-6 text-lg bg-purple-800 text-white hover:bg-purple-700"
                 disabled={isSimulating}
               >
                 {isSimulating ? (
@@ -119,10 +119,10 @@ const Index = () => {
                 ) : (
                   "Simulate"
                 )}
-              </Button>
+              </GradientButton>
             </form>
             {webhookResponseMessage && (
-              <SciFiCard className="mt-6"> {/* Use SciFiCard here */}
+              <SciFiCard className="mt-6">
                 <CardHeader>
                   <CardTitle>Here is the what if scenario</CardTitle>
                 </CardHeader>
@@ -143,7 +143,7 @@ const Index = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {leaderboard.slice(0, 4).map((item) => (
-                <SciFiCard // Use SciFiCard here
+                <SciFiCard
                   key={item.scenario}
                   className="hover:shadow-lg transition-shadow cursor-pointer"
                   onClick={() => handlePopularClick(item.scenario)}
@@ -163,7 +163,7 @@ const Index = () => {
             <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-100">
               Leaderboard
             </h2>
-            <SciFiCard> {/* Use SciFiCard here */}
+            <SciFiCard>
               <CardContent className="p-0">
                 <div className="divide-y">
                   {leaderboard.slice(0, 5).map((item, index) => (
