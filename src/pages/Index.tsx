@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { useSimulations } from "@/context/SimulationContext";
+import { sanitizeOutput } from "@/lib/utils"; // Import the new utility function
 
 const Index = () => {
   const [scenario, setScenario] = useState("");
@@ -116,7 +117,9 @@ const Index = () => {
                   <CardTitle>Here is the what if scenario</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-lg whitespace-pre-wrap">{webhookResponseMessage}</p>
+                  <p className="text-lg whitespace-pre-wrap">
+                    {sanitizeOutput(webhookResponseMessage)}
+                  </p>
                 </CardContent>
               </Card>
             )}
