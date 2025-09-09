@@ -6,7 +6,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function sanitizeOutput(input: string): string {
-  // Remove '*/' and any character that is not a letter, number, space, period, or comma.
-  // The 'g' flag ensures all occurrences are replaced.
-  return input.replace(/\*\//g, '').replace(/[^a-zA-Z0-9 .,]/g, '');
+  // Remove '*/' and allow a broader range of characters including common punctuation and newlines.
+  // This regex allows letters, numbers, spaces, periods, commas, question marks,
+  // exclamation marks, hyphens, parentheses, square brackets, curly braces, colons,
+  // semicolons, apostrophes, double quotes, slashes, and newlines.
+  return input.replace(/\*\//g, '').replace(/[^a-zA-Z0-9 .,?!-()[]{}:;'"\n]/g, '');
 }
