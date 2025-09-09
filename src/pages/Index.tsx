@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { CardHeader, CardTitle, CardContent } from "@/components/ui/card"; // Keep these imports for sub-components
 import { useToast } from "@/components/ui/use-toast";
 import { useSimulations } from "@/context/SimulationContext";
 import { sanitizeOutput } from "@/lib/utils";
-import { SciFiInput } from "@/components/SciFiInput"; // Import the new SciFiInput
+import { SciFiInput } from "@/components/SciFiInput";
+import { SciFiCard } from "@/components/SciFiCard"; // Import the new SciFiCard
 
 const Index = () => {
   const [scenario, setScenario] = useState("");
@@ -88,7 +89,7 @@ const Index = () => {
           </p>
         </div>
 
-        <Card className="max-w-2xl mx-auto">
+        <SciFiCard className="max-w-2xl mx-auto"> {/* Use SciFiCard here */}
           <CardHeader>
             <CardTitle className="text-center text-2xl">
               Enter your scenario
@@ -97,7 +98,7 @@ const Index = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="relative">
-                <SciFiInput // Use SciFiInput here
+                <SciFiInput
                   type="text"
                   value={scenario}
                   onChange={(e) => setScenario(e.target.value)}
@@ -121,7 +122,7 @@ const Index = () => {
               </Button>
             </form>
             {webhookResponseMessage && (
-              <Card className="mt-6">
+              <SciFiCard className="mt-6"> {/* Use SciFiCard here */}
                 <CardHeader>
                   <CardTitle>Here is the what if scenario</CardTitle>
                 </CardHeader>
@@ -130,10 +131,10 @@ const Index = () => {
                     {sanitizeOutput(webhookResponseMessage)}
                   </p>
                 </CardContent>
-              </Card>
+              </SciFiCard>
             )}
           </CardContent>
-        </Card>
+        </SciFiCard>
 
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
@@ -142,7 +143,7 @@ const Index = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {leaderboard.slice(0, 4).map((item) => (
-                <Card
+                <SciFiCard // Use SciFiCard here
                   key={item.scenario}
                   className="hover:shadow-lg transition-shadow cursor-pointer"
                   onClick={() => handlePopularClick(item.scenario)}
@@ -153,7 +154,7 @@ const Index = () => {
                       {item.count.toLocaleString()} simulations
                     </p>
                   </CardContent>
-                </Card>
+                </SciFiCard>
               ))}
             </div>
           </div>
@@ -162,7 +163,7 @@ const Index = () => {
             <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-100">
               Leaderboard
             </h2>
-            <Card>
+            <SciFiCard> {/* Use SciFiCard here */}
               <CardContent className="p-0">
                 <div className="divide-y">
                   {leaderboard.slice(0, 5).map((item, index) => (
@@ -187,7 +188,7 @@ const Index = () => {
                   ))}
                 </div>
               </CardContent>
-            </Card>
+            </SciFiCard>
           </div>
         </div>
       </div>

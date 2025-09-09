@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { CardHeader, CardTitle, CardContent } from "@/components/ui/card"; // Keep these imports for sub-components
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Share2, Bookmark, History, Copy, Twitter, Facebook, Linkedin } from "lucide-react";
 import { SimulationChart } from "@/components/SimulationChart";
 import { useSimulations } from "@/context/SimulationContext";
 import { useToast } from "@/components/ui/use-toast";
-
-// Removed WebhookResponse interface as it's no longer directly used here for state passing
+import { SciFiCard } from "@/components/SciFiCard"; // Import the new SciFiCard
 
 const SimulationResult = () => {
   const location = useLocation();
@@ -16,14 +15,13 @@ const SimulationResult = () => {
   const { toast } = useToast();
   const { addSimulation, simulations } = useSimulations();
   const [scenario, setScenario] = useState("");
-  const [simulationData, setSimulationData] = useState<any>(null); // Stores the full simulation result (explanation, visualData)
+  const [simulationData, setSimulationData] = useState<any>(null);
   const [chartType, setChartType] = useState<'bar' | 'line' | 'pie'>('bar');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const scenarioParam = params.get('q');
-    // Removed state handling for webhookResponse
 
     if (!scenarioParam) {
       navigate('/');
@@ -32,16 +30,16 @@ const SimulationResult = () => {
 
     setScenario(scenarioParam);
     simulateScenario(scenarioParam);
-  }, [location.search]);
+  }, [location.search, navigate]); // Added navigate to dependency array
 
   const simulateScenario = (scenario: string) => {
     setIsLoading(true);
     
     setTimeout(() => {
-      const result = generateSimulationResult(scenario); // Always generate mock data here
+      const result = generateSimulationResult(scenario);
       
       addSimulation(scenario, result);
-      setSimulationData(result); // Store the result
+      setSimulationData(result);
       setIsLoading(false);
     }, 1000);
   };
@@ -96,7 +94,7 @@ const SimulationResult = () => {
 
   if (isLoading || !simulationData) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 flex items-center justify-center text-foreground relative z-[0]"> {/* Added transparency and z-index */}
+      <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 flex items-center justify-center text-foreground relative z-[0]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
           <h2 className="text-xl font-semibold text-indigo-100">Simulating...</h2>
@@ -109,8 +107,8 @@ const SimulationResult = () => {
   const popularity = Math.floor(Math.random() * 5000) + 500;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 text-foreground relative z-[0]"> {/* Added transparency and z-index */}
-      <div className="container mx-auto px-4 py-12 animate-fade-in-up"> {/* Applied animation here */}
+    <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 text-foreground relative z-[0]">
+      <div className="container mx-auto px-4 py-12 animate-fade-in-up">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-2 text-indigo-100">
@@ -119,9 +117,7 @@ const SimulationResult = () => {
             <p className="text-2xl text-indigo-300">{scenario}</p>
           </div>
 
-          {/* Removed conditional rendering for webhookMessage here */}
-
-          <Card className="mb-8">
+          <SciFiCard className="mb-8"> {/* Use SciFiCard here */}
             <CardHeader>
               <CardTitle>Analysis</CardTitle>
             </CardHeader>
@@ -156,9 +152,9 @@ const SimulationResult = () => {
                 </Button>
               </div>
             </CardContent>
-          </Card>
+          </SciFiCard>
 
-          <Card>
+          <SciFiCard> {/* Use SciFiCard here */}
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Community</CardTitle>
@@ -190,7 +186,7 @@ const SimulationResult = () => {
                 ))}
               </div>
             </CardContent>
-          </Card>
+          </SciFiCard>
         </div>
       </div>
     </div>
