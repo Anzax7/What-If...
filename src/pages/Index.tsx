@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { useSimulations } from "@/context/SimulationContext";
-import { sanitizeOutput } from "@/lib/utils"; // Import the new utility function
+import { sanitizeOutput } from "@/lib/utils";
+import { SciFiInput } from "@/components/SciFiInput"; // Import the new SciFiInput
 
 const Index = () => {
   const [scenario, setScenario] = useState("");
   const [webhookResponseMessage, setWebhookResponseMessage] = useState<string | null>(null);
-  const [isSimulating, setIsSimulating] = useState(false); // New state for loading
+  const [isSimulating, setIsSimulating] = useState(false);
   const { toast, dismiss } = useToast();
   const navigate = useNavigate();
   const { leaderboard } = useSimulations();
@@ -26,7 +26,7 @@ const Index = () => {
       return;
     }
 
-    setIsSimulating(true); // Start simulating
+    setIsSimulating(true);
     const loadingToast = toast({
       title: "Submitting scenario...",
       description: "Please wait while we process your request.",
@@ -67,7 +67,7 @@ const Index = () => {
       });
       setWebhookResponseMessage(`Error: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
-      setIsSimulating(false); // End simulating
+      setIsSimulating(false);
     }
   };
 
@@ -78,7 +78,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 text-foreground relative z-[0]">
-      <div className="container mx-auto px-4 py-12 animate-fade-in-up"> {/* Applied animation here */}
+      <div className="container mx-auto px-4 py-12 animate-fade-in-up">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 text-indigo-100 font-orbitron">
             What If Simulator
@@ -97,19 +97,18 @@ const Index = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="relative">
-                <Input
+                <SciFiInput // Use SciFiInput here
                   type="text"
                   value={scenario}
                   onChange={(e) => setScenario(e.target.value)}
                   placeholder="What if..."
-                  className="text-lg py-6 px-4"
-                  disabled={isSimulating} // Disable input while simulating
+                  disabled={isSimulating}
                 />
               </div>
               <Button 
                 type="submit" 
                 className="w-full py-6 text-lg bg-purple-800 text-white hover:bg-purple-700"
-                disabled={isSimulating} // Disable button while simulating
+                disabled={isSimulating}
               >
                 {isSimulating ? (
                   <div className="flex items-center justify-center">
