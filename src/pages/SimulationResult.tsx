@@ -168,13 +168,13 @@ const SimulationResult = () => {
                 {simulations.slice(0, 3).map((sim) => (
                   <div 
                     key={sim.id} 
-                    className="flex items-center gap-4 p-4 border rounded-lg hover:bg-gray-900 cursor-pointer"
+                    className="flex items-center gap-4 p-4 border rounded-lg hover:bg-accent cursor-pointer"
                     onClick={() => navigate(`/simulation?q=${encodeURIComponent(sim.scenario)}`)}
                   >
                     <History className="text-indigo-400" />
                     <div>
                       <h3 className="font-medium">{sim.scenario}</h3>
-                      <p className="text-sm text-gray-400 mt-1">
+                      <p className="text-sm text-muted-foreground mt-1">
                         {new Date(sim.timestamp).toLocaleString()}
                       </p>
                     </div>

@@ -79,7 +79,7 @@ const Index = () => {
                 >
                   <CardContent className="p-4">
                     <p className="text-lg">{item.scenario}</p>
-                    <p className="text-sm text-gray-400 mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                       {item.count.toLocaleString()} simulations
                     </p>
                   </CardContent>
@@ -98,7 +98,7 @@ const Index = () => {
                   {leaderboard.slice(0, 5).map((item, index) => (
                     <div 
                       key={item.scenario} 
-                      className="p-4 hover:bg-gray-900 cursor-pointer flex justify-between items-center"
+                      className="p-4 hover:bg-accent cursor-pointer flex justify-between items-center"
                       onClick={() => handlePopularClick(item.scenario)}
                     >
                       <div className="flex items-center gap-3">
@@ -110,7 +110,7 @@ const Index = () => {
                         </div>
                         <p className="font-medium">{item.scenario}</p>
                       </div>
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-muted-foreground">
                         {item.count.toLocaleString()}
                       </span>
                     </div>
