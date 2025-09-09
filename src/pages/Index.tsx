@@ -13,7 +13,7 @@ const Index = () => {
   const [scenario, setScenario] = useState("");
   const [webhookResponseMessage, setWebhookResponseMessage] = useState<string | null>(null);
   const [isSimulating, setIsSimulating] = useState(false);
-  const { toast } = useToast(); // Removed dismiss as it's no longer needed for these toasts
+  const { toast } = useToast();
   const navigate = useNavigate();
   const { leaderboard } = useSimulations();
 
@@ -29,7 +29,6 @@ const Index = () => {
     }
 
     setIsSimulating(true);
-    // Removed loading toast
 
     try {
       const webhookUrl = "http://localhost:5678/webhook-test/c0540016-ee92-459e-8737-26d58df96e6e";
@@ -48,11 +47,8 @@ const Index = () => {
       const webhookResponse = await response.json();
       setWebhookResponseMessage(webhookResponse.output || "No output received from webhook.");
 
-      // Removed success toast
-
     } catch (error) {
       console.error("Error submitting scenario:", error);
-      // Removed failure toast
       setWebhookResponseMessage(`Error: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setIsSimulating(false);
@@ -78,7 +74,7 @@ const Index = () => {
 
         <SciFiCard className="max-w-2xl mx-auto">
           <CardHeader>
-            <CardTitle className="text-center text-2xl">
+            <CardTitle className="text-center text-2xl font-permanent-marker"> {/* Applied Permanent Marker font */}
               Enter your scenario
             </CardTitle>
           </CardHeader>
