@@ -78,7 +78,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black text-foreground">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 text-indigo-100">
+          <h1 className="text-5xl font-bold mb-4 text-indigo-100 font-orbitron">
             What If Simulator
           </h1>
           <p className="text-xl text-indigo-300">
