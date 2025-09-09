@@ -113,7 +113,7 @@ const SimulationResult = () => {
       <div className="container mx-auto px-4 py-12 animate-fade-in-up"> {/* Applied animation here */}
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-2 text-indigo-100 font-orbitron">
+            <h1 className="text-4xl font-bold mb-2 text-indigo-100">
               Simulation Result
             </h1>
             <p className="text-2xl text-indigo-300">{scenario}</p>
