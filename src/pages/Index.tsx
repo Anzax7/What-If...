@@ -5,11 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { MadeWithDyad } from "@/components/made-with-dyad";
+import { useSimulations } from "@/context/SimulationContext";
 
 const Index = () => {
   const [scenario, setScenario] = useState("");
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { leaderboard } = useSimulations();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,26 +69,59 @@ const Index = () => {
           </CardContent>
         </Card>
 
-        <div className="mt-16">
-          <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-900">
-            Popular Simulations
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              "What if gravity was half?",
-              "What if I invested ₹10,000 in Bitcoin in 2015?",
-              "What if humans could photosynthesize?",
-            ].map((item) => (
-              <Card
-                key={item}
-                className="hover:shadow-lg transition-shadow cursor-pointer"
-                onClick={() => handlePopularClick(item)}
-              >
-                <CardContent className="p-4">
-                  <p className="text-lg">{item}</p>
-                </CardContent>
-              </Card>
-            ))}
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-900">
+              Popular Simulations
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {leaderboard.slice(0, 4).map((item) => (
+                <Card
+                  key={item.scenario}
+                  className="hover:shadow-lg transition-shadow cursor-pointer"
+                  onClick={() => handlePopularClick(item.scenario)}
+                >
+                  <CardContent className="p-4">
+                    <p className="text-lg">{item.scenario}</p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {item.count.toLocaleString()} simulations
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-900">
+              Leaderboard
+            </h2>
+            <Card>
+              <CardContent className="p-0">
+                <div className="divide-y">
+                  {leaderboard.slice(0, 5).map((item, index) => (
+                    <div 
+                      key={item.scenario} 
+                      className="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center"
+                      onClick={() => handlePopularClick(item.scenario)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center 
+                          ${index === 0 ? 'bg-yellow-100 text-yellow-800' : 
+                            index === 1 ? 'bg-gray-100 text-gray-800' : 
+                            index === 2 ? 'bg-amber-100 text-amber-800' : 'bg-blue-50 text-blue-800'}`}>
+                          {index + 1}
+                        </div>
+                        <p className="font-medium">{item.scenario}</p>
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        {item.count.toLocaleString()}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
