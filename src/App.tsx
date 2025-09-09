@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import SimulationResult from "./pages/SimulationResult";
 import { SimulationProvider } from "./context/SimulationContext";
+import Background from "./components/Background"; // Import the new Background component
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <Background /> {/* Add the Background component here */}
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />

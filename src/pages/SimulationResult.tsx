@@ -96,7 +96,7 @@ const SimulationResult = () => {
 
   if (isLoading || !simulationData) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black flex items-center justify-center text-foreground">
+      <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 flex items-center justify-center text-foreground relative z-[0]"> {/* Added transparency and z-index */}
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
           <h2 className="text-xl font-semibold text-indigo-100">Simulating...</h2>
@@ -109,7 +109,7 @@ const SimulationResult = () => {
   const popularity = Math.floor(Math.random() * 5000) + 500;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black text-foreground">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 text-foreground relative z-[0]"> {/* Added transparency and z-index */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
