@@ -30,13 +30,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black text-foreground">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 text-indigo-900">
+          <h1 className="text-5xl font-bold mb-4 text-indigo-100">
             What If Simulator
           </h1>
-          <p className="text-xl text-indigo-700">
+          <p className="text-xl text-indigo-300">
             Explore alternate realities through semi-scientific simulations
           </p>
         </div>
@@ -67,7 +67,7 @@ const Index = () => {
 
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
-            <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-900">
+            <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-100">
               Popular Simulations
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -79,7 +79,7 @@ const Index = () => {
                 >
                   <CardContent className="p-4">
                     <p className="text-lg">{item.scenario}</p>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-gray-400 mt-1">
                       {item.count.toLocaleString()} simulations
                     </p>
                   </CardContent>
@@ -89,7 +89,7 @@ const Index = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-900">
+            <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-100">
               Leaderboard
             </h2>
             <Card>
@@ -98,19 +98,19 @@ const Index = () => {
                   {leaderboard.slice(0, 5).map((item, index) => (
                     <div 
                       key={item.scenario} 
-                      className="p-4 hover:bg-gray-50 cursor-pointer flex justify-between items-center"
+                      className="p-4 hover:bg-gray-900 cursor-pointer flex justify-between items-center"
                       onClick={() => handlePopularClick(item.scenario)}
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center 
-                          ${index === 0 ? 'bg-yellow-100 text-yellow-800' : 
-                            index === 1 ? 'bg-gray-100 text-gray-800' : 
-                            index === 2 ? 'bg-amber-100 text-amber-800' : 'bg-blue-50 text-blue-800'}`}>
+                          ${index === 0 ? 'bg-yellow-700 text-yellow-100' : 
+                            index === 1 ? 'bg-gray-700 text-gray-100' : 
+                            index === 2 ? 'bg-amber-700 text-amber-100' : 'bg-blue-700 text-blue-100'}`}>
                           {index + 1}
                         </div>
                         <p className="font-medium">{item.scenario}</p>
                       </div>
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-gray-400">
                         {item.count.toLocaleString()}
                       </span>
                     </div>

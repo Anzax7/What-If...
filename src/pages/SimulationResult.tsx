@@ -90,11 +90,11 @@ const SimulationResult = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black flex items-center justify-center text-foreground">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-          <h2 className="text-xl font-semibold text-indigo-900">Simulating...</h2>
-          <p className="text-indigo-700">{scenario}</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
+          <h2 className="text-xl font-semibold text-indigo-100">Simulating...</h2>
+          <p className="text-indigo-300">{scenario}</p>
         </div>
       </div>
     );
@@ -104,14 +104,14 @@ const SimulationResult = () => {
   const popularity = Math.floor(Math.random() * 5000) + 500;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black text-foreground">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-2 text-indigo-900">
+            <h1 className="text-4xl font-bold mb-2 text-indigo-100">
               Simulation Result
             </h1>
-            <p className="text-2xl text-indigo-700">{scenario}</p>
+            <p className="text-2xl text-indigo-300">{scenario}</p>
           </div>
 
           <Card className="mb-8">
@@ -121,7 +121,7 @@ const SimulationResult = () => {
             <CardContent>
               <p className="text-lg mb-6">{result.explanation}</p>
               
-              <div className="bg-white p-4 rounded-lg border mb-6">
+              <div className="bg-gray-800 p-4 rounded-lg border border-gray-700 mb-6">
                 <SimulationChart 
                   data={result.visualData} 
                   scenario={scenario}
@@ -168,13 +168,13 @@ const SimulationResult = () => {
                 {simulations.slice(0, 3).map((sim) => (
                   <div 
                     key={sim.id} 
-                    className="flex items-center gap-4 p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                    className="flex items-center gap-4 p-4 border rounded-lg hover:bg-gray-900 cursor-pointer"
                     onClick={() => navigate(`/simulation?q=${encodeURIComponent(sim.scenario)}`)}
                   >
-                    <History className="text-indigo-500" />
+                    <History className="text-indigo-400" />
                     <div>
                       <h3 className="font-medium">{sim.scenario}</h3>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-400 mt-1">
                         {new Date(sim.timestamp).toLocaleString()}
                       </p>
                     </div>
