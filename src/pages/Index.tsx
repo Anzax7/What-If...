@@ -99,7 +99,7 @@ const Index = () => {
                   type="text"
                   value={scenario}
                   onChange={(e) => setScenario(e.target.value)}
-                  placeholder="What if gravity was half?"
+                  placeholder="What if..."
                   className="text-lg py-6 px-4"
                 />
               </div>
