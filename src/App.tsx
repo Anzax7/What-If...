@@ -7,7 +7,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import SimulationResult from "./pages/SimulationResult";
 import { SimulationProvider } from "./context/SimulationContext";
-import Background from "./components/Background"; // Import the new Background component
+import Background from "./components/Background";
+import SocialLink from "./components/SocialLink"; // Import the new SocialLink component
 
 const queryClient = new QueryClient();
 
@@ -17,13 +18,22 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <Background /> {/* Add the Background component here */}
+        <Background />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/simulation" element={<SimulationResult />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="relative min-h-screen"> {/* Added relative positioning for absolute children */}
+            <div className="absolute top-4 left-4 z-50"> {/* Position the social link */}
+              <SocialLink 
+                href="https://www.instagram.com/anzaxmusic/" 
+                src="/images/instagram-logo.png" 
+                alt="Instagram" 
+              />
+            </div>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/simulation" element={<SimulationResult />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </SimulationProvider>
