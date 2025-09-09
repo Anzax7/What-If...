@@ -9,14 +9,15 @@ import { sanitizeOutput } from "@/lib/utils"; // Import the new utility function
 
 const Index = () => {
   const [scenario, setScenario] = useState("");
-  const [webhookResponseMessage, setWebhookResponseMessage] = useState<string | null>(null); // New state for webhook response
+  const [webhookResponseMessage, setWebhookResponseMessage] = useState<string | null>(null);
+  const [isSimulating, setIsSimulating] = useState(false); // New state for loading
   const { toast, dismiss } = useToast();
   const navigate = useNavigate();
   const { leaderboard } = useSimulations();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setWebhookResponseMessage(null); // Clear previous response
+    setWebhookResponseMessage(null);
     if (!scenario.trim()) {
       toast({
         title: "Please enter a scenario",
@@ -25,10 +26,11 @@ const Index = () => {
       return;
     }
 
+    setIsSimulating(true); // Start simulating
     const loadingToast = toast({
       title: "Submitting scenario...",
       description: "Please wait while we process your request.",
-      duration: 999999, // Keep this toast open indefinitely
+      duration: 999999,
     });
 
     try {
@@ -45,9 +47,8 @@ const Index = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const webhookResponse = await response.json(); // Parse the JSON response
-      // Extract only the 'output' field from the webhook response
-      setWebhookResponseMessage(webhookResponse.output || "No output received from webhook."); // Store the output
+      const webhookResponse = await response.json();
+      setWebhookResponseMessage(webhookResponse.output || "No output received from webhook.");
 
       dismiss(loadingToast.id);
       toast({
@@ -56,7 +57,6 @@ const Index = () => {
         variant: "success",
       });
 
-      // No navigation here, display result on this page
     } catch (error) {
       console.error("Error submitting scenario:", error);
       dismiss(loadingToast.id);
@@ -66,17 +66,18 @@ const Index = () => {
         variant: "destructive",
       });
       setWebhookResponseMessage(`Error: ${error instanceof Error ? error.message : String(error)}`);
+    } finally {
+      setIsSimulating(false); // End simulating
     }
   };
 
   const handlePopularClick = (popularScenario: string) => {
     setScenario(popularScenario);
-    // Popular simulations still navigate to the simulation result page
     navigate(`/simulation?q=${encodeURIComponent(popularScenario)}`);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 text-foreground relative z-[0]"> {/* Added transparency and z-index */}
+    <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 text-foreground relative z-[0]">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 text-indigo-100 font-orbitron">
@@ -102,13 +103,22 @@ const Index = () => {
                   onChange={(e) => setScenario(e.target.value)}
                   placeholder="What if..."
                   className="text-lg py-6 px-4"
+                  disabled={isSimulating} // Disable input while simulating
                 />
               </div>
               <Button 
                 type="submit" 
                 className="w-full py-6 text-lg bg-purple-800 text-white hover:bg-purple-700"
+                disabled={isSimulating} // Disable button while simulating
               >
-                Simulate
+                {isSimulating ? (
+                  <div className="flex items-center justify-center">
+                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent mr-2"></div>
+                    Simulating...
+                  </div>
+                ) : (
+                  "Simulate"
+                )}
               </Button>
             </form>
             {webhookResponseMessage && (
