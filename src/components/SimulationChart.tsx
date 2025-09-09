@@ -8,10 +8,11 @@ interface SimulationChartProps {
     values: number[];
   };
   scenario: string;
-  chartType?: 'bar' | 'line' | 'pie';
+  chartType: 'bar' | 'line' | 'pie';
+  onChartTypeChange: (type: 'bar' | 'line' | 'pie') => void;
 }
 
-export const SimulationChart = ({ data, scenario, chartType = 'bar' }: SimulationChartProps) => {
+export const SimulationChart = ({ data, scenario, chartType, onChartTypeChange }: SimulationChartProps) => {
   const chartData = data.labels.map((label, index) => ({
     name: label,
     value: data.values[index],
@@ -67,19 +68,19 @@ export const SimulationChart = ({ data, scenario, chartType = 'bar' }: Simulatio
       <div className="flex justify-end mb-2">
         <div className="flex gap-2">
           <button 
-            onClick={() => setChartType('bar')} 
+            onClick={() => onChartTypeChange('bar')} 
             className={`px-2 py-1 text-xs rounded ${chartType === 'bar' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100'}`}
           >
             Bar
           </button>
           <button 
-            onClick={() => setChartType('line')} 
+            onClick={() => onChartTypeChange('line')} 
             className={`px-2 py-1 text-xs rounded ${chartType === 'line' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100'}`}
           >
             Line
           </button>
           <button 
-            onClick={() => setChartType('pie')} 
+            onClick={() => onChartTypeChange('pie')} 
             className={`px-2 py-1 text-xs rounded ${chartType === 'pie' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100'}`}
           >
             Pie

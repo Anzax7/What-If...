@@ -8,34 +8,77 @@ import { SimulationChart } from "@/components/SimulationChart";
 import { useSimulations } from "@/context/SimulationContext";
 import { useToast } from "@/components/ui/use-toast";
 
+interface WebhookResponse {
+  message?: string; // Assuming the webhook returns a message field
+  // You can add other fields here if your webhook returns more structured data,
+  // e.g., visualData?: { labels: string[]; values: number[]; };
+  // explanation?: string;
+}
+
 const SimulationResult = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { addSimulation, simulations } = useSimulations();
   const [scenario, setScenario] = useState("");
+  const [simulationData, setSimulationData] = useState<any>(null); // Stores the full simulation result (explanation, visualData)
+  const [webhookMessage, setWebhookMessage] = useState<string | null>(null); // Stores the specific message from webhook
   const [chartType, setChartType] = useState<'bar' | 'line' | 'pie'>('bar');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const scenarioParam = params.get('q');
-    
-    if (!scenarioParam) {
+    const state = location.state as { scenario: string; webhookResponse: WebhookResponse } | undefined;
+
+    let currentScenario = scenarioParam;
+    let currentWebhookResponse: WebhookResponse | undefined;
+
+    if (state?.scenario) {
+      currentScenario = state.scenario;
+      currentWebhookResponse = state.webhookResponse;
+    }
+
+    if (!currentScenario) {
       navigate('/');
       return;
     }
 
-    setScenario(scenarioParam);
-    simulateScenario(scenarioParam);
-  }, [location.search]);
+    setScenario(currentScenario);
+    
+    if (currentWebhookResponse?.message) {
+      setWebhookMessage(currentWebhookResponse.message);
+    }
 
-  const simulateScenario = (scenario: string) => {
+    simulateScenario(currentScenario, currentWebhookResponse);
+  }, [location.search, location.state]);
+
+  const simulateScenario = (scenario: string, webhookResponse?: WebhookResponse) => {
     setIsLoading(true);
     
     setTimeout(() => {
-      const result = generateSimulationResult(scenario);
+      let result;
+      if (webhookResponse && webhookResponse.message) {
+        // If webhook provided a message, use it as the explanation
+        // For visual data, we'll use a placeholder or try to parse if webhook provides it
+        result = {
+          explanation: webhookResponse.message, // Use webhook message as explanation
+          visualData: {
+            labels: ["Webhook Data", "Simulated Data"],
+            values: [Math.floor(Math.random() * 100) + 50, Math.floor(Math.random() * 100) + 50],
+          }
+        };
+        // If webhook also provides visualData, you could use it here:
+        // if (webhookResponse.visualData) {
+        //   result.visualData = webhookResponse.visualData;
+        // }
+      } else {
+        // Fallback to existing mock data generation
+        result = generateSimulationResult(scenario);
+      }
+      
       addSimulation(scenario, result);
+      setSimulationData(result); // Store the result
       setIsLoading(false);
     }, 1000);
   };
@@ -88,7 +131,7 @@ const SimulationResult = () => {
     window.open(url, '_blank');
   };
 
-  if (isLoading) {
+  if (isLoading || !simulationData) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black flex items-center justify-center text-foreground">
         <div className="text-center">
@@ -100,7 +143,6 @@ const SimulationResult = () => {
     );
   }
 
-  const result = generateSimulationResult(scenario);
   const popularity = Math.floor(Math.random() * 5000) + 500;
 
   return (
@@ -114,18 +156,30 @@ const SimulationResult = () => {
             <p className="text-2xl text-indigo-300">{scenario}</p>
           </div>
 
+          {webhookMessage && (
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Here is the what if scenario</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-lg">{webhookMessage}</p>
+              </CardContent>
+            </Card>
+          )}
+
           <Card className="mb-8">
             <CardHeader>
               <CardTitle>Analysis</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-lg mb-6">{result.explanation}</p>
+              <p className="text-lg mb-6">{simulationData.explanation}</p>
               
               <div className="bg-gray-800 p-4 rounded-lg border border-gray-700 mb-6">
                 <SimulationChart 
-                  data={result.visualData} 
+                  data={simulationData.visualData} 
                   scenario={scenario}
                   chartType={chartType}
+                  onChartTypeChange={setChartType}
                 />
               </div>
 
