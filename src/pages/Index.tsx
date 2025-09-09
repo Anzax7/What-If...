@@ -45,7 +45,8 @@ const Index = () => {
       }
 
       const webhookResponse = await response.json(); // Parse the JSON response
-      setWebhookResponseMessage(webhookResponse.message || "No message received from webhook."); // Store the message
+      // Extract only the 'output' field from the webhook response
+      setWebhookResponseMessage(webhookResponse.output || "No output received from webhook."); // Store the output
 
       dismiss(loadingToast.id);
       toast({
