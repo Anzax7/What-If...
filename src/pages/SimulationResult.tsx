@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Share2, Bookmark, History, Copy, Twitter, Facebook, Linkedin } from "lucide-react";
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { SimulationChart } from "@/components/SimulationChart";
 import { useSimulations } from "@/context/SimulationContext";
 import { useToast } from "@/components/ui/use-toast";
@@ -34,7 +33,6 @@ const SimulationResult = () => {
   const simulateScenario = (scenario: string) => {
     setIsLoading(true);
     
-    // Simulate API call delay
     setTimeout(() => {
       const result = generateSimulationResult(scenario);
       addSimulation(scenario, result);
@@ -43,7 +41,6 @@ const SimulationResult = () => {
   };
 
   const generateSimulationResult = (scenario: string) => {
-    // This would be replaced with actual simulation logic
     const scenarios = {
       "What if gravity was half?": {
         explanation: `If gravity were half as strong as it is now, many aspects of our world would change dramatically. Objects would weigh half as much, allowing humans to jump higher and lift heavier objects. Buildings could be constructed with less material, but would need different engineering to account for reduced compression. The atmosphere would expand, potentially making high-altitude areas less habitable. Animals and plants would evolve different structures to cope with the reduced force.`,
@@ -188,7 +185,6 @@ const SimulationResult = () => {
           </Card>
         </div>
       </div>
-      <MadeWithDyad />
     </div>
   );
 };

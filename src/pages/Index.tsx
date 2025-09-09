@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { useSimulations } from "@/context/SimulationContext";
 
 const Index = () => {
@@ -125,7 +124,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <MadeWithDyad />
     </div>
   );
 };
