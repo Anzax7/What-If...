@@ -104,7 +104,23 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in-up": "fade-in-up 1s ease-out forwards", // Longer duration
       },
+      textShadow: {
+        neon: '0 0 5px var(--tw-shadow-color), 0 0 10px var(--tw-shadow-color), 0 0 20px var(--tw-shadow-color)',
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function({ addUtilities }) {
+      addUtilities({
+        '.text-shadow-neon': {
+          'text-shadow': '0 0 5px var(--tw-shadow-color), 0 0 10px var(--tw-shadow-color), 0 0 20px var(--tw-shadow-color)',
+          '--tw-shadow-color': 'hsl(210 40% 98%)', // Light bluish-white for the glow
+        },
+        '.text-shadow-none': {
+          'text-shadow': 'none',
+        },
+      }, ['responsive', 'hover']);
+    }
+  ],
 } satisfies Config;
