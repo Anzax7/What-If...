@@ -78,7 +78,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 text-foreground relative z-[0]">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 animate-fade-in-up"> {/* Applied animation here */}
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 text-indigo-100 font-orbitron">
             What If Simulator

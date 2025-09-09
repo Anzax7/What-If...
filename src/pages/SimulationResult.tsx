@@ -110,7 +110,7 @@ const SimulationResult = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 text-foreground relative z-[0]"> {/* Added transparency and z-index */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 animate-fade-in-up"> {/* Applied animation here */}
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-2 text-indigo-100">
