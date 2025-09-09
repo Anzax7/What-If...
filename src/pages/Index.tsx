@@ -8,12 +8,14 @@ import { useSimulations } from "@/context/SimulationContext";
 
 const Index = () => {
   const [scenario, setScenario] = useState("");
+  const [webhookResponseMessage, setWebhookResponseMessage] = useState<string | null>(null); // New state for webhook response
   const { toast, dismiss } = useToast();
   const navigate = useNavigate();
   const { leaderboard } = useSimulations();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setWebhookResponseMessage(null); // Clear previous response
     if (!scenario.trim()) {
       toast({
         title: "Please enter a scenario",
@@ -43,6 +45,7 @@ const Index = () => {
       }
 
       const webhookResponse = await response.json(); // Parse the JSON response
+      setWebhookResponseMessage(webhookResponse.message || "No message received from webhook."); // Store the message
 
       dismiss(loadingToast.id);
       toast({
@@ -51,8 +54,7 @@ const Index = () => {
         variant: "success",
       });
 
-      // Navigate and pass the webhook response in the state
-      navigate(`/simulation`, { state: { scenario: scenario, webhookResponse: webhookResponse } });
+      // No navigation here, display result on this page
     } catch (error) {
       console.error("Error submitting scenario:", error);
       dismiss(loadingToast.id);
@@ -61,11 +63,13 @@ const Index = () => {
         description: "There was an error sending your scenario. Please ensure the webhook is running and try again.",
         variant: "destructive",
       });
+      setWebhookResponseMessage(`Error: ${error instanceof Error ? error.message : String(error)}`);
     }
   };
 
   const handlePopularClick = (popularScenario: string) => {
     setScenario(popularScenario);
+    // Popular simulations still navigate to the simulation result page
     navigate(`/simulation?q=${encodeURIComponent(popularScenario)}`);
   };
 
@@ -105,6 +109,16 @@ const Index = () => {
                 Simulate
               </Button>
             </form>
+            {webhookResponseMessage && (
+              <Card className="mt-6">
+                <CardHeader>
+                  <CardTitle>Here is the what if scenario</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-lg">{webhookResponseMessage}</p>
+                </CardContent>
+              </Card>
+            )}
           </CardContent>
         </Card>
 

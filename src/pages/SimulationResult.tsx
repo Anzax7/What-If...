@@ -8,12 +8,7 @@ import { SimulationChart } from "@/components/SimulationChart";
 import { useSimulations } from "@/context/SimulationContext";
 import { useToast } from "@/components/ui/use-toast";
 
-interface WebhookResponse {
-  message?: string; // Assuming the webhook returns a message field
-  // You can add other fields here if your webhook returns more structured data,
-  // e.g., visualData?: { labels: string[]; values: number[]; };
-  // explanation?: string;
-}
+// Removed WebhookResponse interface as it's no longer directly used here for state passing
 
 const SimulationResult = () => {
   const location = useLocation();
@@ -22,60 +17,28 @@ const SimulationResult = () => {
   const { addSimulation, simulations } = useSimulations();
   const [scenario, setScenario] = useState("");
   const [simulationData, setSimulationData] = useState<any>(null); // Stores the full simulation result (explanation, visualData)
-  const [webhookMessage, setWebhookMessage] = useState<string | null>(null); // Stores the specific message from webhook
   const [chartType, setChartType] = useState<'bar' | 'line' | 'pie'>('bar');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const scenarioParam = params.get('q');
-    const state = location.state as { scenario: string; webhookResponse: WebhookResponse } | undefined;
+    // Removed state handling for webhookResponse
 
-    let currentScenario = scenarioParam;
-    let currentWebhookResponse: WebhookResponse | undefined;
-
-    if (state?.scenario) {
-      currentScenario = state.scenario;
-      currentWebhookResponse = state.webhookResponse;
-    }
-
-    if (!currentScenario) {
+    if (!scenarioParam) {
       navigate('/');
       return;
     }
 
-    setScenario(currentScenario);
-    
-    if (currentWebhookResponse?.message) {
-      setWebhookMessage(currentWebhookResponse.message);
-    }
+    setScenario(scenarioParam);
+    simulateScenario(scenarioParam);
+  }, [location.search]);
 
-    simulateScenario(currentScenario, currentWebhookResponse);
-  }, [location.search, location.state]);
-
-  const simulateScenario = (scenario: string, webhookResponse?: WebhookResponse) => {
+  const simulateScenario = (scenario: string) => {
     setIsLoading(true);
     
     setTimeout(() => {
-      let result;
-      if (webhookResponse && webhookResponse.message) {
-        // If webhook provided a message, use it as the explanation
-        // For visual data, we'll use a placeholder or try to parse if webhook provides it
-        result = {
-          explanation: webhookResponse.message, // Use webhook message as explanation
-          visualData: {
-            labels: ["Webhook Data", "Simulated Data"],
-            values: [Math.floor(Math.random() * 100) + 50, Math.floor(Math.random() * 100) + 50],
-          }
-        };
-        // If webhook also provides visualData, you could use it here:
-        // if (webhookResponse.visualData) {
-        //   result.visualData = webhookResponse.visualData;
-        // }
-      } else {
-        // Fallback to existing mock data generation
-        result = generateSimulationResult(scenario);
-      }
+      const result = generateSimulationResult(scenario); // Always generate mock data here
       
       addSimulation(scenario, result);
       setSimulationData(result); // Store the result
@@ -156,16 +119,7 @@ const SimulationResult = () => {
             <p className="text-2xl text-indigo-300">{scenario}</p>
           </div>
 
-          {webhookMessage && (
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle>Here is the what if scenario</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-lg">{webhookMessage}</p>
-              </CardContent>
-            </Card>
-          )}
+          {/* Removed conditional rendering for webhookMessage here */}
 
           <Card className="mb-8">
             <CardHeader>
