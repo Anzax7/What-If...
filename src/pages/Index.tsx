@@ -57,9 +57,6 @@ const Index = () => {
                   placeholder="What if gravity was half?"
                   className="text-lg py-6 px-4"
                 />
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
-                  What if...
-                </span>
               </div>
               <Button type="submit" className="w-full py-6 text-lg">
                 Simulate
