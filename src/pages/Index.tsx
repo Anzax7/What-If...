@@ -115,7 +115,7 @@ const Index = () => {
                   <CardTitle>Here is the what if scenario</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-lg">{webhookResponseMessage}</p>
+                  <p className="text-lg whitespace-pre-wrap">{webhookResponseMessage}</p>
                 </CardContent>
               </Card>
             )}
