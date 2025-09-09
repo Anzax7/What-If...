@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"; // Keep this if other buttons are used
 import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { useSimulations } from "@/context/SimulationContext";
 import { sanitizeOutput } from "@/lib/utils";
 import { SciFiInput } from "@/components/SciFiInput";
 import { SciFiCard } from "@/components/SciFiCard";
-import { GradientButton } from "@/components/GradientButton";
+import { GradientButton } from "@/components/GradientButton"; // Import the new GradientButton
 
 const Index = () => {
   const [scenario, setScenario] = useState("");
@@ -82,7 +82,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-950/70 to-black/70 text-foreground relative z-[0]">
       <div className="container mx-auto px-4 py-12 animate-fade-in-up">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 text-indigo-100 font-michroma"> {/* Changed to font-michroma */}
+          <h1 className="text-5xl font-bold mb-4 text-indigo-100 font-orbitron">
             What If Simulator
           </h1>
           <p className="text-xl text-indigo-300">
@@ -107,7 +107,7 @@ const Index = () => {
                   disabled={isSimulating}
                 />
               </div>
-              <GradientButton
+              <GradientButton // Use GradientButton here
                 type="submit" 
                 disabled={isSimulating}
               >
